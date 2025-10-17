@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Onsite Scoring</title>
+  <style>
+    :root { --wh-header-h: 2.5in; }
+    body { margin:0; font-family:sans-serif; background:#f8f8f8; }
+    .header-outer { display:flex; justify-content:center; margin:24px 0 14px 0; }
+    header.rounded-header {
+      width:100%;
+      max-width:1200px;
+      height:var(--wh-header-h);
+      min-height:var(--wh-header-h);
+      border-radius:60px;
+      border:6px solid #000; /* BLACK block border */
+      background: linear-gradient(to right, #e53935 0%, #fff 50%, #1976d2 100%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      overflow:visible;
+    }
+    header.rounded-header h1 {
+      margin:0; font-size:2.5rem; flex:1; text-align:center; font-weight:900; color:#222; letter-spacing:.02em;
+      z-index:2;
+    }
+    header.rounded-header img.left-img {
+      position:absolute; left:28px; top:50%; transform:translateY(-50%);
+      height:calc(100% - 40px); max-width:120px; z-index:2; background:transparent; display:block;
+    }
+    header.rounded-header img.right-img {
+      position:absolute; right:28px; top:50%; transform:translateY(-50%);
+      height:calc(100% - 40px); max-width:120px; z-index:2; background:transparent; display:block;
+    }
+    #wholehog-nav { width:100%; margin:12px auto; display:flex; justify-content:center; align-items:center; gap:12px; flex-wrap:wrap; text-align:center; }
+    #wholehog-nav a { 
+      display:inline-block; 
+      white-space:nowrap; 
+      padding:8px 12px; 
+      border:2px solid #000; 
+      border-radius:10px; 
+      text-decoration:none; 
+      color:#000; 
+      background:#e53935; 
+      font-weight:bold;
+      transition: background 0.2s, color 0.2s, border 0.2s;
+    }
+    #wholehog-nav a:hover { 
+      background:#fff; 
+      color:#e53935; 
+      border-color:#e53935;
+    }
+    .scoring-row { margin-bottom: 12px; }
+    .fail-flag { color: #b10020; font-weight: bold; display: none; margin-top: 8px; }
+    .score-select:disabled { background: #eee; }
+  </style>
+</head>
+<body>
+  <div class="header-outer">
+    <header class="rounded-header">
+      <img src="images/bbq-pig.png" class="left-img" alt="Pig logo" />
+      <h1>Onsite Scoring</h1>
+      <img src="images/legion-medallion.png" class="right-img" alt="Medallion" />
+    </header>
+  </div>
+  <nav id="wholehog-nav">
+    <a href="./onsite.html">Go to On-Site</a>
+    <a href="./blind.html">Go to Blind Taste</a>
+    <a href="./leaderboard.html">Go to Leaderboard</a>
+    <a href="./sauce.html">Go to Sauce Tasting</a>
+    <a href="./reports.html">Go to Reports</a>
+  </nav>
+  <main>
+      <!-- scoring form and page content here -->
+  </main>
+</body>
+</html>
