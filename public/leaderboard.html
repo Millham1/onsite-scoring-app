@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Leaderboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css"/>
+  <style>
+    body { background: #f7f7fb; }
+    .container { max-width: 900px; margin: 0 auto; padding: 16px; }
+    h1, h2, h3 { text-align: center; }
+    .card { background: #fff; border-radius: 14px; padding: 16px; box-shadow: 0 6px 24px rgba(0,0,0,.06); margin: 24px 0; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 8px 12px; border-bottom: 1px solid #ddd; text-align: center; }
+    th { background: #f1f3f7; font-weight: bold; }
+    .top { background: #ffe066; }
+    .muted { color: #888; font-size: 13px; text-align: center; }
+    .btn { border: 0; border-radius: 10px; padding: 10px 14px; cursor: pointer; font-weight: 700; background: #0d6efd; color: #fff; }
+    #wholehog-nav{ width:100%; margin:12px auto; display:flex; justify-content:center; align-items:center; gap:12px; flex-wrap:wrap; text-align:center; }
+    #wholehog-nav a{ display:inline-block; white-space:nowrap; width:auto; float:none!important; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Leaderboard</h1>
+  </header>
+  <nav id="wholehog-nav">
+    <a href="landing.html">Landing</a>
+    <a href="onsite.html">On-site</a>
+    <a href="blind.html">Blind Taste</a>
+    <a href="sauce.html">Sauce Tasting</a>
+    <a href="reports.html">Reports</a>
+  </nav>
+  <main class="container">
+    <div class="card">
+      <h2>Current Standings</h2>
+      <table id="leaderboard-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Team</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Filled by JS -->
+        </tbody>
+      </table>
+      <div class="muted">Scores update automatically.</div>
+    </div>
+  </main>
+  <script>
+    // Simulated leaderboard data for demo
+    const leaderboardData = [
+      { team: "Smokin’ Aces", score: 143.2 },
+      { team: "Rib Ticklers", score: 139.7 },
+      { team: "Porky’s Revenge", score: 137.9 },
+      { team: "The Saucy Squad", score: 134.6 }
+    ];
+    function renderLeaderboard() {
+      const tbody = document.querySelector("#leaderboard-table tbody");
+      tbody.innerHTML = "";
+      leaderboardData.forEach((entry, i) => {
+        const tr = document.createElement("tr");
+        if (i === 0) tr.classList.add("top");
+        tr.innerHTML = `<td>${i+1}</td><td>${entry.team}</td><td>${entry.score.toFixed(1)}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderLeaderboard);
+  </script>
+</body>
+</html>
