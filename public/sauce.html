@@ -1,9 +1,70 @@
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <title>Sauce</title>
+  <meta charset="utf-8" />
+  <title>Sauce Tasting</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css"/>
+  <style>
+    body { background: #f7f7fb; }
+    .container { max-width: 900px; margin: 0 auto; padding: 16px; }
+    h1, h2, h3 { text-align: center; }
+    .card { background: #fff; border-radius: 14px; padding: 16px; box-shadow: 0 6px 24px rgba(0,0,0,.06); margin: 24px 0; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 8px 12px; border-bottom: 1px solid #ddd; text-align: center; }
+    th { background: #f1f3f7; font-weight: bold; }
+    .muted { color: #888; font-size: 13px; text-align: center; }
+    .btn { border: 0; border-radius: 10px; padding: 10px 14px; cursor: pointer; font-weight: 700; background: #0d6efd; color: #fff; }
+    #wholehog-nav{ width:100%; margin:12px auto; display:flex; justify-content:center; align-items:center; gap:12px; flex-wrap:wrap; text-align:center; }
+    #wholehog-nav a{ display:inline-block; white-space:nowrap; width:auto; float:none!important; }
+  </style>
 </head>
 <body>
-    <h1>Welcome to Sauce!</h1>
-    <p>This is the approved content from WholeHogWeb.</p>
+  <header>
+    <h1>Sauce Tasting</h1>
+  </header>
+  <nav id="wholehog-nav">
+    <a href="landing.html">Landing</a>
+    <a href="onsite.html">On-site</a>
+    <a href="blind.html">Blind Taste</a>
+    <a href="leaderboard.html">Leaderboard</a>
+    <a href="reports.html">Reports</a>
+  </nav>
+  <main class="container">
+    <div class="card">
+      <h2>Sauces</h2>
+      <table id="sauce-table">
+        <thead>
+          <tr>
+            <th>Sauce #</th>
+            <th>Sauce Name</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Filled by JS -->
+        </tbody>
+      </table>
+      <div class="muted">Judges: Please score each sauce.</div>
+    </div>
+  </main>
+  <script>
+    // Simulated sauce data for demo
+    const sauceData = [
+      { number: 1, name: "Sweet Heat", score: 91.2 },
+      { number: 2, name: "Smoky Gold", score: 89.7 },
+      { number: 3, name: "Carolina Classic", score: 88.4 }
+    ];
+    function renderSauces() {
+      const tbody = document.querySelector("#sauce-table tbody");
+      tbody.innerHTML = "";
+      sauceData.forEach((entry) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${entry.number}</td><td>${entry.name}</td><td>${entry.score.toFixed(1)}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderSauces);
+  </script>
 </body>
 </html>
