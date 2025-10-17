@@ -1,11 +1,36 @@
-<!DOCTYPE html>
+<img src="images/bbq-pig.png" style="max-width:120px;border:2px solid red;">
+<img src="images/legion-medallion.png" style="max-width:120px;border:2px solid blue;">
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Onsite Scoring App</title>
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
-</html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Whole Hog Competition 2025 — Landing</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <style>
+    :root { --wh-header-h: 2.25in; --line:#dcdcdc; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:0; }
+    header { height:var(--wh-header-h); min-height:var(--wh-header-h); position:relative; display:flex; align-items:center; justify-content:center; }
+    header h1 { margin:0; line-height:1.1; text-align:center; }
+    header img:first-of-type { position:absolute; left:14px; top:50%; transform:translateY(-50%); height:calc(100% - 20px); width:auto; }
+    header img:last-of-type  { position:absolute; right:14px; top:50%; transform:translateY(-50%); height:calc(100% - 20px); width:auto; }
+    #wholehog-nav { width:100%; margin:12px auto; display:flex; justify-content:center; align-items:center; gap:12px; flex-wrap:wrap; text-align:center; }
+    #wholehog-nav a { display:inline-block; white-space:nowrap; padding:8px 12px; border:1px solid #111; border-radius:10px; text-decoration:none; color:#111; background:#f5f5f5; }
+    .container { max-width:1000px; margin:18px auto; padding:0 14px; }
+    .card { border:1px solid var(--line); border-radius:12px; padding:14px; background:#fff; }
+    .card h2 { margin:0 0 10px 0; }
+    .row { display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end; }
+    .field { display:flex; flex-direction:column; gap:6px; }
+    .field label { font-weight:600; }
+    .input, select { padding:8px 10px; border:1px solid #bbb; border-radius:8px; }
+    .btn { padding:10px 16px; border-radius:10px; border:1px solid #111; background:#f5f5f5; cursor:pointer; }
+    .btn-red-black { background:#b10020; color:#111; border:2px solid #111; font-weight:700; }
+    ul.clean { list-style:none; padding:0; margin:0; }
+    .muted { color:#666; font-size:12px; }
+    .error { color: #b10020; font-size: 13px; margin-top: 6px; }
+    .success { color: #198754; font-size: 13px; margin-top: 6px; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <img src="Legion whole hog logo.png" alt="Logo" onerror="this.style.display='none'"/>
