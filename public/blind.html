@@ -20,15 +20,83 @@
     .container { max-width:1100px; margin:18px auto; padding:0 14px; }
     .card { border:1px solid var(--line); border-radius:12px; padding:14px; background:#fff; }
     .card h2 { margin:0 0 10px 0; }
-    .row { display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end; }
-    .field { display:flex; flex-direction:column; gap:6px; }
+    .row { display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end; margin-bottom: 12px; }
+    .field { display:flex; flex-direction:column; gap:6px; min-width:180px; }
     .field label { font-weight:600; }
     .input, select { padding:8px 10px; border:1px solid #bbb; border-radius:8px; }
-    .btn { padding:10px 16px; border-radius:10px; border:1px solid #111; background:#f5f5f5; cursor:pointer; }
+    .btn { padding:10px 16px; border-radius:10px; border:1px solid #111; background:#f5f5f5; cursor:pointer; font-weight:700; }
     .btn-primary { background:#111; color:#fff; }
     .muted { color:#666; font-size:12px; }
     .error { color: #e53935; font-size: 13px; margin-top: 6px; }
     .success { color: #198754; font-size: 13px; margin-top: 6px; }
+
+    /* Custom dropdown styles */
+    .score-select-wrap {
+      position: relative;
+      display: inline-block;
+      width: 170px;
+    }
+    .score-select-btn {
+      width: 100%;
+      text-align: left;
+      border: 1px solid #bbb;
+      border-radius: 8px;
+      background: #fff;
+      padding: 10px 12px;
+      font-size: 15px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .score-select-btn.selected {
+      background: #ffc107;
+      border-color: #eab308;
+      color: #222;
+    }
+    .score-dropdown {
+      display: none;
+      position: absolute;
+      top: 110%;
+      left: 0;
+      z-index: 10;
+      background: #fff;
+      border: 1.5px solid #111;
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.18);
+      padding: 10px;
+      min-width: 150px;
+      min-height: 40px;
+      animation: fadeIn .15s;
+    }
+    .score-dropdown.open {
+      display: block;
+    }
+    .score-dropdown .score-grid {
+      display: grid;
+      gap:8px;
+    }
+    .score-dropdown[data-type="appearance"] .score-grid,
+    .score-dropdown[data-type="tenderness"] .score-grid {
+      grid-template-columns: repeat(4,1fr);
+    }
+    .score-dropdown[data-type="taste"] .score-grid {
+      grid-template-columns: repeat(5,1fr);
+    }
+    .score-opt-btn {
+      border: 1px solid #bbb;
+      border-radius: 8px;
+      padding: 6px 0;
+      background: #f7f7fb;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .14s;
+    }
+    .score-opt-btn.selected, .score-opt-btn:hover {
+      background: #ffc107;
+      border-color: #eab308;
+      color: #111;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
 </head>
@@ -48,29 +116,55 @@
 
   <main class="container">
     <section class="card">
-      <h2>Enter Blind Score</h2>
+      <h2>Enter Blind Taste Score</h2>
       <div class="row">
-        <div class="field" style="flex:1 1 260px; min-width:220px;">
+        <div class="field">
           <label for="judge">Judge</label>
           <select id="judge" class="input">
             <option value="">Select judge…</option>
           </select>
         </div>
-        <div class="field" style="flex:1 1 200px; min-width:160px;">
+        <div class="field">
           <label for="chip">Chip #</label>
           <select id="chip" class="input">
             <option value="">Select chip…</option>
           </select>
         </div>
-        <div class="field" style="flex:0 0 140px;">
-          <label for="score">Score</label>
-          <select id="score" class="input">
-            <option value="">Select score…</option>
-          </select>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>Appearance (2–40)</label>
+          <div class="score-select-wrap">
+            <button type="button" id="appearance-btn" class="score-select-btn">Select...</button>
+            <div id="appearance-dropdown" class="score-dropdown" data-type="appearance">
+              <div class="score-grid"></div>
+            </div>
+          </div>
         </div>
-        <div style="flex:0 0 auto;">
-          <button id="enterBtn" class="btn btn-primary" type="button">Enter</button>
+        <div class="field">
+          <label>Tenderness (2–40)</label>
+          <div class="score-select-wrap">
+            <button type="button" id="tenderness-btn" class="score-select-btn">Select...</button>
+            <div id="tenderness-dropdown" class="score-dropdown" data-type="tenderness">
+              <div class="score-grid"></div>
+            </div>
+          </div>
         </div>
+        <div class="field">
+          <label>Taste (4–80)</label>
+          <div class="score-select-wrap">
+            <button type="button" id="taste-btn" class="score-select-btn">Select...</button>
+            <div id="taste-dropdown" class="score-dropdown" data-type="taste">
+              <div class="score-grid"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="margin: 16px 0 0 0; font-weight: 600;">
+        Total: <span id="score-total">0</span> <span class="muted">(Max 160)</span>
+      </div>
+      <div style="margin-top:18px">
+        <button id="enterBtn" class="btn btn-primary" type="button">Enter</button>
       </div>
       <div class="muted" id="status" style="margin-top:8px;">Saved scores appear on the Leaderboard → Blind Taste Test.</div>
     </section>
@@ -109,14 +203,68 @@
       }
     }
 
-    function populateScoreDropdown() {
-      const scoreSel = document.getElementById('score');
-      scoreSel.innerHTML = '<option value="">Select score…</option>';
-      for (let i = 1; i <= 20; i++) {
-        scoreSel.innerHTML += `<option value="${i}">${i}</option>`;
-      }
+    function makeScoreGrid(values, btnId, dropdownId, type) {
+      const btn = document.getElementById(btnId);
+      const dropdown = document.getElementById(dropdownId);
+      const grid = dropdown.querySelector('.score-grid');
+      grid.innerHTML = '';
+      values.forEach(val => {
+        const scoreBtn = document.createElement('button');
+        scoreBtn.type = 'button';
+        scoreBtn.className = 'score-opt-btn';
+        scoreBtn.textContent = val;
+        scoreBtn.onclick = () => {
+          // Mark selected
+          grid.querySelectorAll('.score-opt-btn').forEach(b=>b.classList.remove('selected'));
+          scoreBtn.classList.add('selected');
+          // Set button text
+          btn.textContent = val;
+          btn.classList.add('selected');
+          dropdown.classList.remove('open');
+          updateTotal();
+        };
+        grid.appendChild(scoreBtn);
+      });
+      btn.onclick = function(e) {
+        // Close all other dropdowns
+        document.querySelectorAll('.score-dropdown').forEach(dd => { if(dd !== dropdown) dd.classList.remove('open'); });
+        dropdown.classList.toggle('open');
+        e.stopPropagation();
+      };
     }
-
+    function getSelectedScore(dropdownId) {
+      const dd = document.getElementById(dropdownId);
+      const sel = dd.querySelector('.score-opt-btn.selected');
+      return sel ? Number(sel.textContent) : 0;
+    }
+    function updateTotal() {
+      const a = getSelectedScore('appearance-dropdown');
+      const t = getSelectedScore('tenderness-dropdown');
+      const f = getSelectedScore('taste-dropdown');
+      document.getElementById('score-total').textContent = a + t + f;
+    }
+    function clearScores() {
+      [
+        ['appearance-btn','appearance-dropdown'],
+        ['tenderness-btn','tenderness-dropdown'],
+        ['taste-btn','taste-dropdown']
+      ].forEach(([btnId,ddId]) => {
+        document.getElementById(btnId).textContent = 'Select...';
+        document.getElementById(btnId).classList.remove('selected');
+        document.getElementById(ddId).querySelectorAll('.score-opt-btn.selected').forEach(x=>x.classList.remove('selected'));
+      });
+      updateTotal();
+    }
+    function clearForm() {
+      document.getElementById('judge').value = '';
+      document.getElementById('chip').value = '';
+      clearScores();
+    }
+    function setStatus(msg, type='muted') {
+      const el = document.getElementById('status');
+      el.textContent = msg;
+      el.className = type;
+    }
     async function validateDuplicate(judge, chip) {
       try {
         const { data, error } = await supabase
@@ -130,53 +278,60 @@
         return false;
       }
     }
-
-    async function saveScore(judge, chip, score) {
+    async function saveScore(judge, chip, appearance, tenderness, taste, total) {
       try {
         const { data, error } = await supabase
           .from('blind_taste_scores')
-          .insert([{ judge, chip, score }]);
+          .insert([{ judge, chip, appearance, tenderness, taste, total, timestamp: new Date().toISOString() }]);
         return (!error && data);
       } catch {
         return false;
       }
     }
-
     async function handleEnterScore() {
       const judge = document.getElementById('judge').value;
       const chip = document.getElementById('chip').value;
-      const score = document.getElementById('score').value;
+      const appearance = getSelectedScore('appearance-dropdown');
+      const tenderness = getSelectedScore('tenderness-dropdown');
+      const taste = getSelectedScore('taste-dropdown');
+      const total = appearance + tenderness + taste;
       const statusEl = document.getElementById('status');
-      if (!judge) { statusEl.textContent = 'Please select a judge.'; statusEl.className='error'; return; }
-      if (!chip) { statusEl.textContent = 'Please select a chip number.'; statusEl.className='error'; return; }
-      if (!score) { statusEl.textContent = 'Please select a score.'; statusEl.className='error'; return; }
-
-      statusEl.textContent = 'Checking for duplicates...'; statusEl.className='muted';
+      if (!judge) { setStatus('Please select a judge.','error'); return; }
+      if (!chip) { setStatus('Please select a chip number.','error'); return; }
+      if (!appearance || !tenderness || !taste) { setStatus('Please select all scores.','error'); return; }
+      setStatus('Checking for duplicates...','muted');
       const isDuplicate = await validateDuplicate(judge, chip);
       if (isDuplicate) {
-        statusEl.textContent = 'Duplicate: This judge has already scored this chip number.'; statusEl.className='error';
+        setStatus('Duplicate: This judge has already scored this chip number.','error');
         return;
       }
-
-      statusEl.textContent = 'Saving...'; statusEl.className='muted';
-      const saveSuccess = await saveScore(judge, chip, Number(score));
+      setStatus('Saving...','muted');
+      const saveSuccess = await saveScore(judge, chip, appearance, tenderness, taste, total);
       if (saveSuccess) {
-        statusEl.textContent = 'Saved to database at ' + new Date().toLocaleTimeString(); statusEl.className='success';
-        document.getElementById('score').value = '';
-        document.getElementById('chip').value = '';
-        setTimeout(()=>{
-          statusEl.textContent='Saved scores appear on the Leaderboard → Blind Taste Test.'; statusEl.className='muted';
-        },3000);
+        setStatus('Saved to database at ' + new Date().toLocaleTimeString(), 'success');
+        clearForm();
+        setTimeout(()=>{setStatus('Saved scores appear on the Leaderboard → Blind Taste Test.','muted');},3000);
       } else {
-        statusEl.textContent = 'Save failed. Please try again.'; statusEl.className='error';
+        setStatus('Save failed. Please try again.','error');
       }
     }
-
     document.addEventListener('DOMContentLoaded', () => {
       loadJudges();
       populateChipDropdown();
-      populateScoreDropdown();
+      makeScoreGrid(Array.from({length:20},(_,i)=>2*(i+1)), 'appearance-btn', 'appearance-dropdown', 'appearance');
+      makeScoreGrid(Array.from({length:20},(_,i)=>2*(i+1)), 'tenderness-btn', 'tenderness-dropdown', 'tenderness');
+      makeScoreGrid(Array.from({length:20},(_,i)=>4*(i+1)), 'taste-btn', 'taste-dropdown', 'taste');
+      updateTotal();
       document.getElementById('enterBtn').addEventListener('click', handleEnterScore);
+
+      // Close dropdowns if clicking outside
+      document.body.addEventListener('click', function() {
+        document.querySelectorAll('.score-dropdown.open').forEach(dd=>dd.classList.remove('open'));
+      });
+      // Prevent dropdowns from closing when clicking inside
+      document.querySelectorAll('.score-dropdown').forEach(dd=>{
+        dd.addEventListener('click', function(e){e.stopPropagation();});
+      });
     });
   </script>
 </body>
